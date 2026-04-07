@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>靜脈營養點滴需求評估 | IV Nutrition Needs Assessment</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif;background:#f0f4f8;color:#2d3748;line-height:1.6}
+
+    .hdr{background:linear-gradient(135deg,#0d2744 0%,#1a365d 50%,#2b6cb0 100%);color:#fff;padding:52px 24px 44px;text-align:center}
+    .hdr-ico{font-size:52px;margin-bottom:16px}
+    .hdr h1{font-size:1.9rem;font-weight:800;letter-spacing:-.5px;margin-bottom:6px}
+    .hdr h2{font-size:.95rem;font-weight:400;opacity:.8;margin-bottom:16px;letter-spacing:1px}
+    .hdr-desc{max-width:640px;margin:0 auto;background:rgba(255,255,255,.12);border-radius:12px;padding:14px 20px;font-size:.86rem;line-height:1.7;opacity:.93}
+
+    .wrap{max-width:880px;margin:0 auto;padding:28px 16px 60px}
+
+    .disc{background:#fffbeb;border-left:4px solid #f59e0b;border-radius:10px;padding:14px 18px;margin-bottom:24px;font-size:.83rem;color:#78350f}
+    .disc strong{color:#92400e}
+
+    .pgbox{background:#fff;border-radius:14px;padding:16px 22px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,.07);position:sticky;top:8px;z-index:10}
+    .pgrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+    .pglbl{font-size:.8rem;color:#718096}
+    .pgnum{font-weight:700;color:#2b6cb0;font-size:.88rem}
+    .pgtrack{height:8px;background:#e2e8f0;border-radius:4px;overflow:hidden}
+    .pgfill{height:100%;background:linear-gradient(90deg,#2b6cb0,#4299e1);border-radius:4px;transition:width .3s ease;width:0%}
+
+    .sec{background:#fff;border-radius:16px;padding:26px 26px 18px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+    .sechd{display:flex;align-items:center;gap:14px;margin-bottom:16px;padding-bottom:14px;border-bottom:2px solid #f0f4f8}
+    .secico{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+    .secinfo h3{font-size:1rem;font-weight:700;color:#1a365d}
+    .secinfo p{font-size:.77rem;color:#718096;margin-top:1px}
+    .badge{display:inline-block;background:#ebf8ff;color:#2b6cb0;border-radius:7px;padding:1px 9px;font-size:.7rem;font-weight:600;margin-left:7px;vertical-align:middle}
+
+    .qi{display:flex;align-items:flex-start;gap:13px;padding:12px 9px;cursor:pointer;border-radius:9px;transition:background .13s;border-bottom:1px solid #f7fafc}
+    .qi:last-child{border-bottom:none}
+    .qi:hover{background:#f7fafc}
+    .qi.ck{background:#ebf8ff}
+    .qi input[type=checkbox]{width:19px;height:19px;border-radius:4px;accent-color:#2b6cb0;cursor:pointer;flex-shrink:0;margin-top:3px}
+    .qlbl{flex:1}
+    .qzh{font-size:.91rem;font-weight:500;color:#2d3748}
+    .qen{font-size:.77rem;color:#a0aec0;margin-top:2px}
+
+    .subwrap{text-align:center;margin:32px 0}
+    .subbtn{background:linear-gradient(135deg,#2b6cb0,#4299e1);color:#fff;border:none;padding:16px 52px;font-size:1rem;font-weight:700;border-radius:50px;cursor:pointer;box-shadow:0 4px 18px rgba(66,153,225,.4);transition:all .2s;letter-spacing:.5px}
+    .subbtn:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(66,153,225,.5)}
+    .subnote{font-size:.78rem;color:#a0aec0;margin-top:9px}
+
+    #res{display:none;animation:fi .5s ease}
+    @keyframes fi{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    .rbanner{text-align:center;padding:42px 24px;background:linear-gradient(135deg,#0d2744,#1a365d,#2b6cb0);color:#fff;border-radius:16px;margin-bottom:22px}
+    .rbanner h2{font-size:1.45rem;font-weight:700;margin-bottom:7px}
+    .chips{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+    .chip{background:rgba(255,255,255,.18);border-radius:50px;padding:7px 20px;font-size:.83rem;font-weight:600}
+
+    .chartbox{background:#fff;border-radius:16px;padding:30px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+    .ctitle{font-size:1rem;font-weight:700;color:#1a365d;margin-bottom:3px}
+    .csub{font-size:.8rem;color:#718096;margin-bottom:22px}
+    .clay{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+    .ccw{flex:0 0 250px;max-width:250px}
+    .cleg{flex:1;min-width:170px}
+    .legitem{display:flex;align-items:center;gap:9px;padding:7px 9px;border-radius:8px;margin-bottom:3px}
+    .legdot{width:13px;height:13px;border-radius:50%;flex-shrink:0}
+    .legname{flex:1;font-size:.86rem;font-weight:600}
+    .legpct{font-size:.86rem;font-weight:700}
+
+    .catgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px;margin-bottom:18px}
+    .catcard{background:#fff;border-radius:13px;padding:18px;box-shadow:0 2px 10px rgba(0,0,0,.06);border-left:5px solid}
+    .cchd{display:flex;align-items:center;gap:9px;margin-bottom:12px}
+    .ccico{font-size:24px}
+    .cczh{font-size:.95rem;font-weight:700}
+    .ccen{font-size:.7rem;color:#718096}
+    .ccbar{height:6px;background:#e2e8f0;border-radius:3px;overflow:hidden;margin-bottom:7px}
+    .ccfill{height:100%;border-radius:3px}
+    .ccpct{font-size:1.45rem;font-weight:800;margin-bottom:3px}
+    .rbadge{display:inline-block;padding:2px 10px;border-radius:11px;font-size:.7rem;font-weight:600}
+    .rh{background:#fed7d7;color:#c53030}
+    .rm{background:#fefcbf;color:#744210}
+    .rl{background:#c6f6d5;color:#276749}
+    .rn{background:#e2e8f0;color:#718096}
+
+    .recbox{background:#fff;border-radius:16px;padding:30px;margin-bottom:18px;box-shadow:0 2px 10px rgba(0,0,0,.06)}
+    .recbox h3{font-size:1rem;font-weight:700;color:#1a365d;margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #f0f4f8}
+    .reccard{background:#f7fafc;border-radius:11px;padding:16px 18px;margin-bottom:10px}
+    .reccard h4{font-size:.88rem;font-weight:700;margin-bottom:5px}
+    .reccard ul{font-size:.8rem;color:#4a5568;margin:5px 0 8px 16px;line-height:1.9}
+
+    .fin{background:linear-gradient(135deg,#ebf8ff,#e0f2fe);border-radius:16px;padding:26px;text-align:center;margin-bottom:28px}
+    .fin h4{color:#1a365d;font-size:.97rem;font-weight:700;margin-bottom:9px}
+    .fin p{color:#2c5282;font-size:.82rem;line-height:1.75}
+
+    .rstwrap{text-align:center;margin-bottom:18px}
+    .rstbtn{background:#fff;color:#2b6cb0;border:2px solid #2b6cb0;padding:11px 36px;font-size:.9rem;font-weight:600;border-radius:50px;cursor:pointer;transition:all .2s}
+    .rstbtn:hover{background:#2b6cb0;color:#fff}
+
+    @media(max-width:540px){.ccw{flex:0 0 100%;max-width:220px;margin:0 auto}.cleg{width:100%}}
+    @media(max-width:500px){.hdr h1{font-size:1.45rem}.sec{padding:18px 14px 12px}.catgrid{grid-template-columns:1fr 1fr}}
+    @media(max-width:360px){.catgrid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-ico">💉</div>
+  <h1>靜脈營養點滴需求自我評估</h1>
+  <h2>IV Nutrition Needs Self-Assessment · 60 Questions · v1.0</h2>
+  <div class="hdr-desc">
+    根據您目前的症狀，評估您可能最需要補充的靜脈點滴營養種類，協助醫師擬定個人化點滴方案。<br>
+    <small>Based on your current symptoms, this assessment estimates which IV nutrients you may need most, helping your physician design a personalized drip protocol.</small>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="disc">
+    ⚠️ <strong>重要聲明：</strong>本問卷僅供初步篩查參考，<strong>不構成醫療診斷或處方</strong>。
+    所有點滴治療須由醫師評估後才可執行。請攜帶本結果諮詢診所醫師進行正式評估與個人化建議。<br>
+    <em>For preliminary screening only — not a medical diagnosis or prescription. All IV therapies require physician evaluation. Please consult your clinic physician for formal assessment.</em>
+  </div>
+
+  <div class="pgbox">
+    <div class="pgrow">
+      <span class="pglbl">已勾選 Questions answered</span>
+      <span class="pgnum"><span id="cc">0</span> / 60</span>
+    </div>
+    <div class="pgtrack"><div class="pgfill" id="pf"></div></div>
+  </div>
+
+  <form id="mf">
+
+    <!-- ===== SEC 1: 神經系統 / 認知 ===== -->
+    <div class="sec">
+      <div class="sechd">
+        <div class="secico" style="background:#faf5ff">🧠</div>
+        <div class="secinfo">
+          <h3>第一部分：神經系統 / 認知 <span class="badge">10題</span></h3>
+          <p>Section 1 — Neurological & Cognitive Function</p>
+        </div>
+      </div>
+      <label class="qi" id="L-q1">
+        <input type="checkbox" id="q1" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">記憶力下降、容易忘事</div>
+          <div class="qen">Memory decline or frequent forgetfulness</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q2">
+        <input type="checkbox" id="q2" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">注意力不集中、難以長時間專注</div>
+          <div class="qen">Difficulty concentrating or maintaining focus</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q3">
+        <input type="checkbox" id="q3" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">手腳麻木、刺痛、感覺異常</div>
+          <div class="qen">Numbness, tingling, or abnormal sensations in limbs</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q4">
+        <input type="checkbox" id="q4" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">頭暈目眩，有時感覺天旋地轉</div>
+          <div class="qen">Dizziness or vertigo episodes</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q5">
+        <input type="checkbox" id="q5" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">反覆頭痛或偏頭痛</div>
+          <div class="qen">Recurrent headaches or migraines</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q6">
+        <input type="checkbox" id="q6" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">睡眠困難、容易失眠或睡眠品質差</div>
+          <div class="qen">Difficulty sleeping, insomnia, or poor sleep quality</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q7">
+        <input type="checkbox" id="q7" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">情緒低落、憂鬱傾向、提不起勁</div>
+          <div class="qen">Low mood, depressive tendency, or lack of motivation</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q8">
+        <input type="checkbox" id="q8" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">焦慮、容易緊張、煩躁不安</div>
+          <div class="qen">Anxiety, nervousness, or restlessness</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q9">
+        <input type="checkbox" id="q9" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">神經痛、灼燒感或電擊感</div>
+          <div class="qen">Nerve pain, burning sensations, or electric shock-like feelings</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q10">
+        <input type="checkbox" id="q10" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">腦霧感（思緒不清晰、反應遲緩）</div>
+          <div class="qen">Brain fog — cloudy thinking, slow mental processing</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- ===== SEC 2: 能量 / 疲勞 ===== -->
+    <div class="sec">
+      <div class="sechd">
+        <div class="secico" style="background:#fffaf0">⚡</div>
+        <div class="secinfo">
+          <h3>第二部分：能量 / 疲勞 <span class="badge">8題</span></h3>
+          <p>Section 2 — Energy & Fatigue</p>
+        </div>
+      </div>
+      <label class="qi" id="L-q11">
+        <input type="checkbox" id="q11" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">長期疲勞感，休息後也難以恢復</div>
+          <div class="qen">Chronic fatigue that doesn't improve with rest</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q12">
+        <input type="checkbox" id="q12" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">運動耐力差、容易喘、運動後恢復慢</div>
+          <div class="qen">Poor exercise tolerance, easy breathlessness, slow recovery</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q13">
+        <input type="checkbox" id="q13" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">全身肌肉無力、提重物困難</div>
+          <div class="qen">Generalized muscle weakness or difficulty with physical tasks</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q14">
+        <input type="checkbox" id="q14" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">輕度活動後即感到氣喘、呼吸費力</div>
+          <div class="qen">Shortness of breath even with minimal physical activity</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q15">
+        <input type="checkbox" id="q15" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">手腳經常冰冷，末梢循環差</div>
+          <div class="qen">Persistently cold hands and feet, poor peripheral circulation</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q16">
+        <input type="checkbox" id="q16" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">心悸、心跳加速或感到不規律</div>
+          <div class="qen">Heart palpitations, racing heart, or irregular heartbeat sensations</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q17">
+        <input type="checkbox" id="q17" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">白天嗜睡、精神萎靡、下午特別疲倦</div>
+          <div class="qen">Daytime sleepiness, low energy, especially in the afternoon</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q18">
+        <input type="checkbox" id="q18" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">早晨醒來仍感到疲憊，無法精神抖擻</div>
+          <div class="qen">Waking up unrefreshed, not feeling rested after sleep</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- ===== SEC 3: 免疫 / 感染 ===== -->
+    <div class="sec">
+      <div class="sechd">
+        <div class="secico" style="background:#fff5f5">🛡️</div>
+        <div class="secinfo">
+          <h3>第三部分：免疫 / 感染 <span class="badge">8題</span></h3>
+          <p>Section 3 — Immune Function & Infection</p>
+        </div>
+      </div>
+      <label class="qi" id="L-q19">
+        <input type="checkbox" id="q19" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">反覆感冒、感染頻繁（每年超過3次）</div>
+          <div class="qen">Frequent colds or infections (more than 3 times per year)</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q20">
+        <input type="checkbox" id="q20" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">傷口癒合緩慢、容易瘀青</div>
+          <div class="qen">Slow wound healing or easy bruising</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q21">
+        <input type="checkbox" id="q21" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">過敏體質嚴重（食物、環境、化學物質）</div>
+          <div class="qen">Significant allergy sensitivity — food, environmental, or chemical</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q22">
+        <input type="checkbox" id="q22" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">已確診自體免疫疾病</div>
+          <div class="qen">Diagnosed autoimmune condition</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q23">
+        <input type="checkbox" id="q23" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">味覺或嗅覺明顯減退</div>
+          <div class="qen">Significantly reduced sense of taste or smell</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q24">
+        <input type="checkbox" id="q24" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">牙齦容易出血、口腔潰瘍反覆發生</div>
+          <div class="qen">Bleeding gums or recurrent mouth ulcers (canker sores)</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q25">
+        <input type="checkbox" id="q25" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">病毒感染後長時間未完全恢復（如新冠後遺症）</div>
+          <div class="qen">Prolonged recovery after viral infection (e.g., Long COVID)</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q26">
+        <input type="checkbox" id="q26" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">整體免疫力下降，感覺身體抵抗力很弱</div>
+          <div class="qen">Generally weakened immunity and low resistance to illness</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- ===== SEC 4: 肌肉 / 骨骼 ===== -->
+    <div class="sec">
+      <div class="sechd">
+        <div class="secico" style="background:#f0fff4">🦴</div>
+        <div class="secinfo">
+          <h3>第四部分：肌肉 / 骨骼 <span class="badge">7題</span></h3>
+          <p>Section 4 — Muscle & Bone Health</p>
+        </div>
+      </div>
+      <label class="qi" id="L-q27">
+        <input type="checkbox" id="q27" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">肌肉抽筋、痙攣，尤其是夜間腿抽筋</div>
+          <div class="qen">Muscle cramps or spasms, especially nocturnal leg cramps</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q28">
+        <input type="checkbox" id="q28" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">關節疼痛、僵硬或慢性關節炎</div>
+          <div class="qen">Joint pain, stiffness, or chronic arthritis</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q29">
+        <input type="checkbox" id="q29" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">骨質疏鬆或骨密度偏低（已確認或高風險）</div>
+          <div class="qen">Osteoporosis or low bone density (confirmed or high risk)</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q30">
+        <input type="checkbox" id="q30" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">運動後肌肉酸痛嚴重、恢復困難</div>
+          <div class="qen">Severe post-exercise muscle soreness with slow recovery</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q31">
+        <input type="checkbox" id="q31" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">不寧腿症候群（腿部不安、無法靜止）</div>
+          <div class="qen">Restless legs syndrome — uncomfortable urge to move legs</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q32">
+        <input type="checkbox" id="q32" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">慢性背痛、頸痛或脊椎問題</div>
+          <div class="qen">Chronic back pain, neck pain, or spinal issues</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q33">
+        <input type="checkbox" id="q33" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">整體運動表現下降，體能不如以前</div>
+          <div class="qen">Declining physical performance or fitness compared to before</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- ===== SEC 5: 代謝 / 消化 ===== -->
+    <div class="sec">
+      <div class="sechd">
+        <div class="secico" style="background:#fffbeb">🔬</div>
+        <div class="secinfo">
+          <h3>第五部分：代謝 / 消化 <span class="badge">7題</span></h3>
+          <p>Section 5 — Metabolic & Digestive Health</p>
+        </div>
+      </div>
+      <label class="qi" id="L-q34">
+        <input type="checkbox" id="q34" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">血糖偏高、糖尿病或胰島素阻抗</div>
+          <div class="qen">Elevated blood sugar, diabetes, or insulin resistance</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q35">
+        <input type="checkbox" id="q35" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">膽固醇偏高或三酸甘油酯過高</div>
+          <div class="qen">High cholesterol or elevated triglycerides</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q36">
+        <input type="checkbox" id="q36" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">體重過重，難以透過飲食運動減重</div>
+          <div class="qen">Overweight or difficulty losing weight despite diet and exercise</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q37">
+        <input type="checkbox" id="q37" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">已有脂肪肝或肝功能異常</div>
+          <div class="qen">Fatty liver disease or abnormal liver function tests</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q38">
+        <input type="checkbox" id="q38" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">消化不良、腹脹、腸胃敏感</div>
+          <div class="qen">Indigestion, bloating, or sensitive stomach</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q39">
+        <input type="checkbox" id="q39" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">食慾不振、對食物沒有興趣</div>
+          <div class="qen">Poor appetite or loss of interest in food</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q40">
+        <input type="checkbox" id="q40" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">對化學物質、農藥、香水特別敏感，排毒困難</div>
+          <div class="qen">Sensitivity to chemicals, pesticides, or fragrances; impaired detoxification</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- ===== SEC 6: 心血管 ===== -->
+    <div class="sec">
+      <div class="sechd">
+        <div class="secico" style="background:#fff5f5">❤️</div>
+        <div class="secinfo">
+          <h3>第六部分：心血管 <span class="badge">6題</span></h3>
+          <p>Section 6 — Cardiovascular Health</p>
+        </div>
+      </div>
+      <label class="qi" id="L-q41">
+        <input type="checkbox" id="q41" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">高血壓或血壓控制不穩定</div>
+          <div class="qen">High blood pressure or poorly controlled blood pressure</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q42">
+        <input type="checkbox" id="q42" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">曾發生心律不整、心跳異常</div>
+          <div class="qen">History of arrhythmia or abnormal heart rhythm</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q43">
+        <input type="checkbox" id="q43" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">四肢循環不良、手腳容易麻或冷</div>
+          <div class="qen">Poor limb circulation — numbness or coldness in extremities</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q44">
+        <input type="checkbox" id="q44" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">有心臟病史或冠狀動脈疾病</div>
+          <div class="qen">History of heart disease or coronary artery disease</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q45">
+        <input type="checkbox" id="q45" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">胸悶、胸口壓迫感或稍微活動就胸痛</div>
+          <div class="qen">Chest tightness, chest pressure, or exertional chest discomfort</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q46">
+        <input type="checkbox" id="q46" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">血脂異常、動脈硬化或血栓風險</div>
+          <div class="qen">Dyslipidemia, atherosclerosis, or thrombosis risk</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- ===== SEC 7: 皮膚 / 抗氧化 ===== -->
+    <div class="sec">
+      <div class="sechd">
+        <div class="secico" style="background:#fffbeb">✨</div>
+        <div class="secinfo">
+          <h3>第七部分：皮膚 / 抗氧化 <span class="badge">7題</span></h3>
+          <p>Section 7 — Skin & Antioxidant Status</p>
+        </div>
+      </div>
+      <label class="qi" id="L-q47">
+        <input type="checkbox" id="q47" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">皮膚問題（痤瘡、濕疹、皮疹、乾癬）</div>
+          <div class="qen">Skin conditions — acne, eczema, rashes, or psoriasis</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q48">
+        <input type="checkbox" id="q48" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">膚色不均、色素沉澱、黑斑增多</div>
+<div class="qen">Uneven skin tone, hyperpigmentation, or increasing dark spots</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q49">
+        <input type="checkbox" id="q49" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">掉髮增多、髮質變差</div>
+          <div class="qen">Increased hair loss or deteriorating hair quality</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q50">
+        <input type="checkbox" id="q50" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">指甲脆弱、容易斷裂或變形</div>
+          <div class="qen">Brittle, easily broken, or deformed nails</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q51">
+        <input type="checkbox" id="q51" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">皮膚乾燥、老化感明顯、皺紋增加</div>
+          <div class="qen">Dry skin, accelerated aging appearance, or increasing wrinkles</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q52">
+        <input type="checkbox" id="q52" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">感覺比同齡人老化得更快</div>
+          <div class="qen">Feeling or looking older than peers of the same age</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q53">
+        <input type="checkbox" id="q53" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">長期暴露於空汙、毒素或輻射環境</div>
+          <div class="qen">Prolonged exposure to air pollution, toxins, or radiation</div>
+        </div>
+      </label>
+    </div>
+
+    <!-- ===== SEC 8: 情緒 / 壓力 ===== -->
+    <div class="sec">
+      <div class="sechd">
+        <div class="secico" style="background:#ebf8ff">🌿</div>
+        <div class="secinfo">
+          <h3>第八部分：情緒 / 壓力 / 荷爾蒙 <span class="badge">7題</span></h3>
+          <p>Section 8 — Mood, Stress & Hormonal Balance</p>
+        </div>
+      </div>
+      <label class="qi" id="L-q54">
+        <input type="checkbox" id="q54" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">長期高壓、精神緊繃、職業倦怠感明顯</div>
+          <div class="qen">Chronic high stress, mental tension, or burnout</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q55">
+        <input type="checkbox" id="q55" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">懷疑腎上腺疲勞（早上難以起床、對壓力極度敏感）</div>
+          <div class="qen">Suspected adrenal fatigue — hard to wake up, extreme stress sensitivity</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q56">
+        <input type="checkbox" id="q56" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">缺乏行動力與動力，對任何事都提不起興趣</div>
+          <div class="qen">Lack of drive or motivation; disinterest in activities</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q57">
+        <input type="checkbox" id="q57" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">容易煩躁、易怒，情緒控制困難</div>
+          <div class="qen">Easily irritable, difficulty controlling emotions</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q58">
+        <input type="checkbox" id="q58" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">荷爾蒙失調症狀（經前症候群、更年期不適等）</div>
+          <div class="qen">Hormonal imbalance symptoms — PMS, menopausal discomfort, etc.</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q59">
+        <input type="checkbox" id="q59" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">抗壓性差，小事也容易引發強烈情緒反應</div>
+          <div class="qen">Low stress resilience — even small things trigger strong reactions</div>
+        </div>
+      </label>
+      <label class="qi" id="L-q60">
+        <input type="checkbox" id="q60" onchange="u(this)">
+        <div class="qlbl">
+          <div class="qzh">情緒起伏大，心情波動明顯難以穩定</div>
+          <div class="qen">Significant emotional mood swings — hard to maintain stable mood</div>
+        </div>
+      </label>
+    </div>
+
+    <div class="subwrap">
+      <button type="button" class="subbtn" onclick="calc()">
+        🔍 查看評估結果 &nbsp;|&nbsp; View My Results
+      </button>
+      <div class="subnote">
+        請盡量勾選所有符合您目前症狀的選項，結果更精準
+        · Check all symptoms that currently apply to you for best accuracy
+      </div>
+    </div>
+  </form>
+
+  <!-- ===== RESULTS ===== -->
+  <div id="res">
+    <div class="rbanner">
+      <h2>📊 您的靜脈點滴需求評估報告</h2>
+      <p>Your Personalized IV Nutrition Assessment Report</p>
+      <div class="chips">
+        <div class="chip">✅ 已勾選 <span id="fc">0</span> 題</div>
+        <div class="chip">🎯 加權總分 <span id="ts">0</span> 分</div>
+      </div>
+    </div>
+
+    <div id="es" style="display:none;text-align:center;padding:40px;color:#a0aec0">
+      <p>😕 尚未勾選任何題目，請返回填寫。<br><small>Please go back and check applicable symptoms.</small></p>
+    </div>
+
+    <div id="cs" class="chartbox">
+      <div class="ctitle">📈 營養素需求比例分佈</div>
+      <div class="csub">Estimated IV Nutrition Needs Distribution · 依勾選症狀加權分析</div>
+      <div class="clay">
+        <div class="ccw"><canvas id="pc" width="250" height="250"></canvas></div>
+        <div class="cleg" id="cl"></div>
+      </div>
+    </div>
+
+    <div class="catgrid" id="cg"></div>
+
+    <div class="recbox" id="rb">
+      <h3>💉 建議點滴方案<br>
+        <small style="font-weight:400;font-size:.82rem">Recommended IV Drip Protocol — Based on Your Symptom Profile</small>
+      </h3>
+      <div id="rl"></div>
+    </div>
+
+    <div class="fin">
+      <h4>🩺 重要提醒 | Important Reminder</h4>
+      <p>
+        本評估結果僅為初步症狀篩查，<strong>無法替代醫療診斷</strong>。<br>
+        建議攜帶此報告前往診所，與醫師進行完整的功能醫學評估，<br>
+        由醫師根據您的血液檢查、病史及個人狀況，擬定<strong>客製化點滴方案</strong>。<br><br>
+        <em>This assessment is for preliminary screening only and cannot replace medical diagnosis.
+        Please bring this report to your clinic appointment for a comprehensive functional medicine evaluation.
+        Your physician will design a personalized IV protocol based on lab results, medical history, and individual needs.</em>
+      </p>
+    </div>
+
+    <div class="rstwrap">
+      <button class="rstbtn" onclick="rst()">↩ 重新填寫 &nbsp;|&nbsp; Restart Assessment</button>
+    </div>
+  </div>
+
+</div><!-- .wrap -->
+
+<script>
+const TQ = 60;
+
+// ===== 加權定義 =====
+// bvitamin=維生素B群, mineral=礦物質, energy=能量代謝, vitc=維生素C
+// antioxidant=抗氧化解毒, neuro=神經腦部, lipid=脂質細胞膜, adaptive=荷爾蒙調節
+const Q = {
+  // Section 1: 神經系統/認知
+  q1:  { neuro:5, bvitamin:4, mineral:2 },
+  q2:  { neuro:4, bvitamin:3, mineral:2 },
+  q3:  { bvitamin:5, antioxidant:4, neuro:2 },
+  q4:  { bvitamin:4, neuro:3, mineral:2 },
+  q5:  { mineral:5, bvitamin:3, neuro:2 },
+  q6:  { mineral:4, bvitamin:3, neuro:2, adaptive:2 },
+  q7:  { bvitamin:4, neuro:3, lipid:3, mineral:2 },
+  q8:  { mineral:4, bvitamin:3, antioxidant:2, adaptive:2 },
+  q9:  { antioxidant:5, bvitamin:4, neuro:3 },
+  q10: { neuro:5, bvitamin:4, antioxidant:3, mineral:2 },
+  // Section 2: 能量/疲勞
+  q11: { energy:5, bvitamin:4, mineral:3 },
+  q12: { energy:5, bvitamin:3, mineral:3, antioxidant:2 },
+  q13: { bvitamin:4, mineral:4, energy:3 },
+  q14: { bvitamin:4, energy:3, mineral:2 },
+  q15: { bvitamin:4, neuro:2, mineral:2 },
+  q16: { mineral:5, bvitamin:3, energy:3 },
+  q17: { bvitamin:4, energy:4, neuro:2 },
+  q18: { mineral:4, bvitamin:3, energy:3, adaptive:2 },
+  // Section 3: 免疫/感染
+  q19: { vitc:5, mineral:4, antioxidant:3 },
+  q20: { vitc:5, mineral:3, antioxidant:2 },
+  q21: { vitc:4, antioxidant:3, lipid:2, mineral:2 },
+  q22: { antioxidant:4, lipid:4, vitc:3, mineral:2 },
+  q23: { mineral:5, bvitamin:3 },
+  q24: { vitc:5, mineral:2, antioxidant:2 },
+  q25: { vitc:4, antioxidant:4, neuro:2, energy:2 },
+  q26: { vitc:5, mineral:4, antioxidant:3, energy:2 },
+  // Section 4: 肌肉/骨骼
+  q27: { mineral:5, bvitamin:3, adaptive:2 },
+  q28: { lipid:4, vitc:3, neuro:3, antioxidant:2 },
+  q29: { mineral:5, vitc:2, adaptive:2 },
+  q30: { energy:4, mineral:4, antioxidant:3 },
+  q31: { mineral:5, bvitamin:4 },
+  q32: { mineral:4, bvitamin:3, lipid:3 },
+  q33: { energy:5, mineral:3, bvitamin:3 },
+  // Section 5: 代謝/消化
+  q34: { antioxidant:5, mineral:4, bvitamin:3, energy:2 },
+  q35: { lipid:5, energy:3, vitc:2, antioxidant:2 },
+  q36: { energy:4, antioxidant:3, lipid:2 },
+  q37: { antioxidant:5, lipid:4, energy:3, vitc:2 },
+  q38: { bvitamin:3, mineral:2, adaptive:2 },
+  q39: { mineral:4, bvitamin:3, adaptive:2 },
+  q40: { antioxidant:5, vitc:3, bvitamin:2, mineral:2 },
+  // Section 6: 心血管
+  q41: { mineral:5, lipid:4, energy:3 },
+  q42: { mineral:5, energy:4, bvitamin:2 },
+  q43: { neuro:4, energy:3, bvitamin:3, mineral:2 },
+  q44: { energy:5, lipid:4, mineral:3, antioxidant:2 },
+  q45: { energy:4, mineral:3, bvitamin:3 },
+  q46: { lipid:5, antioxidant:3, energy:3, vitc:2 },
+  // Section 7: 皮膚/抗氧化
+  q47: { mineral:4, vitc:3, antioxidant:3 },
+  q48: { vitc:5, antioxidant:4, lipid:2 },
+  q49: { mineral:4, bvitamin:4, antioxidant:2 },
+  q50: { mineral:4, bvitamin:3, antioxidant:2 },
+  q51: { lipid:4, vitc:3, antioxidant:3 },
+  q52: { antioxidant:4, vitc:3, neuro:3, energy:2 },
+  q53: { antioxidant:5, vitc:4, lipid:2 },
+  // Section 8: 情緒/壓力
+  q54: { adaptive:5, mineral:4, bvitamin:3, vitc:3 },
+  q55: { adaptive:5, bvitamin:4, vitc:3, mineral:3 },
+  q56: { bvitamin:4, energy:4, neuro:2 },
+  q57: { mineral:4, bvitamin:3, adaptive:2 },
+  q58: { adaptive:4, mineral:3, bvitamin:3, lipid:2 },
+  q59: { adaptive:4, mineral:4, bvitamin:3, vitc:3 },
+  q60: { bvitamin:4, mineral:3, lipid:3, antioxidant:2 }
+};
+
+const CATS = [
+  { id:'bvitamin',    zh:'維生素 B 群',    en:'B-Vitamins',          color:'#3182ce', icon:'🧬', bg:'#ebf8ff' },
+  { id:'mineral',     zh:'礦物質',         en:'Minerals',            color:'#38a169', icon:'⚡', bg:'#f0fff4' },
+  { id:'energy',      zh:'能量代謝',        en:'Energy Metabolism',   color:'#dd6b20', icon:'🔋', bg:'#fffaf0' },
+  { id:'vitc',        zh:'維生素 C',        en:'Vitamin C',           color:'#d69e2e', icon:'🍊', bg:'#fffff0' },
+  { id:'antioxidant', zh:'抗氧化 / 解毒',   en:'Antioxidant & Detox', color:'#805ad5', icon:'🧪', bg:'#faf5ff' },
+  { id:'neuro',       zh:'神經 / 腦部',     en:'Brain & Neuro',       color:'#2c7a7b', icon:'🧠', bg:'#e6fffa' },
+  { id:'lipid',       zh:'脂質 / 細胞膜',   en:'Lipid & Cell Membrane',color:'#c53030', icon:'🫀', bg:'#fff5f5' },
+  { id:'adaptive',    zh:'荷爾蒙調節',      en:'Hormonal Support',    color:'#b7791f', icon:'🌿', bg:'#fffbeb' }
+];
+
+const RECS = {
+  bvitamin: {
+    zh: '維生素 B 群點滴', en: 'Vitamin B Complex IV',
+    tests: [
+      'B-complex（維生素B群複方點滴）',
+      'Hydroxocobalamin（Vitamin B12 — 羥鈷胺）',
+      'Pyridoxal Phosphate（B6活化型 — 磷酸吡哆醛）',
+      'Thiamine Hydrochloride（B1 — 鹽酸硫胺素）'
+    ]
+  },
+  mineral: {
+    zh: '礦物質點滴', en: 'Mineral IV',
+    tests: [
+      'Magnesium Sulfate（硫酸鎂點滴）',
+      'Zinc Sulfate（硫酸鋅點滴）',
+      'VitaCAL（鈣質點滴）'
+    ]
+  },
+  energy: {
+    zh: '能量代謝點滴', en: 'Energy Metabolism IV',
+    tests: [
+      'L-Carnitine / Levotysis（左旋肉鹼點滴）',
+      'Amino Composite（胺基酸複方點滴）',
+      '7% Nephrosteril（支鏈胺基酸 BCAA 點滴）'
+    ]
+  },
+  vitc: {
+    zh: '高劑量維生素 C 點滴', en: 'High-Dose Vitamin C IV',
+    tests: [
+      'PanNobel（維生素C靜脈點滴）'
+    ]
+  },
+  antioxidant: {
+    zh: '抗氧化 / 解毒點滴', en: 'Antioxidant & Detox IV',
+    tests: [
+      'Agifutol（Glutathione 穀胱甘肽點滴）',
+      'Thioccan（Alpha-Lipoic Acid α-硫辛酸點滴）',
+      'Encore（NAC — N-乙醯半胱氨酸點滴）',
+      'Zelnite（Selenium 硒 — 抗氧化礦物點滴）'
+    ]
+  },
+  neuro: {
+    zh: '神經 / 腦部支持點滴', en: 'Brain & Neuro Support IV',
+    tests: [
+      'Cerebrolysin（神經營養胜肽點滴）',
+      'Trentine（Ginkgo Biloba Extract 銀杏萃取點滴）',
+      'Methylene Blue（甲烯藍點滴）',
+      'Mejuoline（複方神經支持點滴）',
+      '靜脈雷射（ILIB — 紅藍紫綠雷射）'
+    ]
+  },
+  lipid: {
+    zh: '脂質 / 細胞膜點滴', en: 'Lipid & Cell Membrane IV',
+    tests: [
+      'Omegaven（Omega-3 靜脈魚油點滴）',
+      'Lipodissolve — 肝得健（PC 多烯磷脂醯膽鹼點滴）'
+    ]
+  },
+  adaptive: {
+    zh: '荷爾蒙調節 / 適應原點滴', en: 'Hormonal & Adaptogenic IV',
+    tests: [
+      'Soragen-S（甘草酸 Glycyrrhizin 點滴）',
+      'Solu-cortef（Hydrocortisone 氫化可體松點滴）'
+    ]
+  }
+};
+
+let chartInst = null;
+
+function u(cb) {
+  const checked = document.querySelectorAll('#mf input[type=checkbox]:checked').length;
+  document.getElementById('cc').textContent = checked;
+  document.getElementById('pf').style.width = (checked / TQ * 100) + '%';
+  const lbl = document.getElementById('L-' + cb.id);
+  if (lbl) lbl.classList.toggle('ck', cb.checked);
+}
+
+function calc() {
+  const checked = [...document.querySelectorAll('#mf input[type=checkbox]:checked')].map(c => c.id);
+  if (!checked.length) {
+    document.getElementById('es').style.display = 'block';
+    document.getElementById('cs').style.display = 'none';
+    document.getElementById('cg').style.display = 'none';
+    document.getElementById('rb').style.display = 'none';
+    document.getElementById('res').style.display = 'block';
+    document.getElementById('res').scrollIntoView({ behavior: 'smooth' });
+    return;
+  }
+  document.getElementById('es').style.display = 'none';
+  document.getElementById('cs').style.display = 'block';
+  document.getElementById('cg').style.display = '';
+  document.getElementById('rb').style.display = 'block';
+
+  const scores = {};
+  CATS.forEach(c => { scores[c.id] = 0; });
+  let totalScore = 0;
+  checked.forEach(qid => {
+    const weights = Q[qid] || {};
+    Object.entries(weights).forEach(([cat, pts]) => {
+      if (scores[cat] !== undefined) { scores[cat] += pts; totalScore += pts; }
+    });
+  });
+
+  document.getElementById('fc').textContent = checked.length;
+  document.getElementById('ts').textContent = totalScore;
+
+  const pcts = {};
+  CATS.forEach(c => { pcts[c.id] = totalScore > 0 ? Math.round(scores[c.id] / totalScore * 100) : 0; });
+
+  const ctx = document.getElementById('pc').getContext('2d');
+  if (chartInst) chartInst.destroy();
+  chartInst = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: CATS.map(c => c.zh),
+      datasets: [{
+        data: CATS.map(c => scores[c.id] || 0.1),
+        backgroundColor: CATS.map(c => c.color + 'cc'),
+        borderColor: CATS.map(c => c.color),
+        borderWidth: 2
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      cutout: '62%'
+    }
+  });
+
+  const legEl = document.getElementById('cl');
+  legEl.innerHTML = CATS.map(c =>
+    `<div class="legitem">
+      <div class="legdot" style="background:${c.color}"></div>
+      <span class="legname">${c.zh}<br><small style="color:#a0aec0;font-weight:400">${c.en}</small></span>
+      <span class="legpct" style="color:${c.color}">${pcts[c.id]}%</span>
+    </div>`
+  ).join('');
+
+  const grid = document.getElementById('cg');
+  const sorted = [...CATS].sort((a,b) => scores[b.id] - scores[a.id]);
+  grid.innerHTML = sorted.map(c => {
+    const pct = pcts[c.id];
+    const risk = pct >= 50 ? 'rh' : pct >= 25 ? 'rm' : pct >= 10 ? 'rl' : 'rn';
+    const riskLabel = pct >= 50 ? '高需求' : pct >= 25 ? '中需求' : pct >= 10 ? '低需求' : '目前正常';
+    const riskEn = pct >= 50 ? 'High Need' : pct >= 25 ? 'Moderate Need' : pct >= 10 ? 'Low Need' : 'Normal';
+    return `<div class="catcard" style="border-color:${c.color}">
+      <div class="cchd">
+        <span class="ccico">${c.icon}</span>
+        <div><div class="cczh">${c.zh}</div><div class="ccen">${c.en}</div></div>
+      </div>
+      <div class="ccbar"><div class="ccfill" style="width:${pct}%;background:${c.color}"></div></div>
+      <div class="ccpct" style="color:${c.color}">${pct}%</div>
+      <span class="rbadge ${risk}">${riskLabel} · ${riskEn}</span>
+    </div>`;
+  }).join('');
+
+  const recEl = document.getElementById('rl');
+  const highCats = sorted.filter(c => pcts[c.id] >= 15);
+  if (highCats.length) {
+    recEl.innerHTML = highCats.map(c => {
+      const rec = RECS[c.id];
+      if (!rec) return '';
+      const pct = pcts[c.id];
+      return `<div class="reccard">
+        <h4>${c.icon} ${rec.zh} · <span style="font-weight:400;color:#718096">${rec.en}</span>
+          <span class="rbadge ${pct>=50?'rh':pct>=25?'rm':'rl'}" style="margin-left:8px">${pct}%</span>
+        </h4>
+        <ul>${rec.tests.map(t => `<li>${t}</li>`).join('')}</ul>
+      </div>`;
+    }).join('');
+  } else {
+    recEl.innerHTML = '<p style="font-size:.85rem;color:#718096">目前勾選症狀較少，建議多勾選確實符合的症狀後重新評估。<br><small>Please check more applicable symptoms for a more accurate assessment.</small></p>';
+  }
+
+  document.getElementById('res').style.display = 'block';
+  document.getElementById('res').scrollIntoView({ behavior: 'smooth' });
+}
+
+function rst() {
+  document.querySelectorAll('#mf input[type=checkbox]').forEach(cb => {
+    cb.checked = false;
+    const lbl = document.getElementById('L-' + cb.id);
+    if (lbl) lbl.classList.remove('ck');
+  });
+  document.getElementById('cc').textContent = '0';
+  document.getElementById('pf').style.width = '0%';
+  document.getElementById('res').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
