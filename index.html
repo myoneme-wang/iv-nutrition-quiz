@@ -98,6 +98,10 @@
     @media(max-width:540px){.ccw{flex:0 0 100%;max-width:220px;margin:0 auto}.cleg{width:100%}}
     @media(max-width:500px){.hdr h1{font-size:1.45rem}.sec{padding:18px 14px 12px}.catgrid{grid-template-columns:1fr 1fr}}
     @media(max-width:360px){.catgrid{grid-template-columns:1fr}}
+    .patinfo{max-width:760px;margin:0 auto 16px;padding:0 16px}
+    .patrow{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+    .patrow label{min-width:100px;font-size:.9rem;color:#555;font-weight:600}
+    .patrow input{flex:1;padding:8px 12px;border:1px solid #ddd;border-radius:8px;font-size:.9rem}
   </style>
 </head>
 <body>
@@ -639,7 +643,11 @@
     </div>
 
     <div class="subwrap">
-      <button type="button" class="subbtn" onclick="calc()">
+    <div class="patinfo">
+      <div class="patrow"><label>姓名 Name</label><input id="patName" type="text" placeholder="（選填） Optional"></div>
+      <div class="patrow"><label>電話 Phone</label><input id="patPhone" type="tel" placeholder="（選填） Optional"></div>
+    </div>
+      <button type="button" class="subbtn" onclick="calc();sendToSheets()">
         🔍 查看評估結果 &nbsp;|&nbsp; View My Results
       </button>
       <div class="subnote">
@@ -966,6 +974,22 @@ function calc() {
   document.getElementById('res').style.display = 'block';
   document.getElementById('res').scrollIntoView({ behavior: 'smooth' });
 }
+
+  function sendToSheets() {
+    try {
+      var chart = Object.values(Chart.instances)[0];
+      var scores = chart.data.datasets[0].data;
+      var payload = {
+        timestamp: new Date().toISOString(),
+        name: (document.getElementById("patName")||{}).value||"",
+        phone: (document.getElementById("patPhone")||{}).value||"",
+        B: scores[0], Min: scores[1], Eng: scores[2], VitC: scores[3],
+        Anti: scores[4], Neuro: scores[5], Lipid: scores[6], Horm: scores[7]
+      };
+      fetch("https://script.google.com/macros/s/AKfycbylxfIjmmx2L-Y-v4sNO-jxEydOoLiUG-UbAV3DYn6Goe0sU6f4iQx6E-3KILKMe43A/exec",
+        {method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    } catch(e) { console.warn("Sheet sync failed", e); }
+  }
 
 function rst() {
   document.querySelectorAll('#mf input[type=checkbox]').forEach(cb => {
