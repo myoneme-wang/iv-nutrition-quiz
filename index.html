@@ -1026,6 +1026,7 @@ function calc() {
     });
 
     const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
+  window._productScores = scores;
     const sorted = CATS
       .map(c => ({ ...c, score: scores[c.id], pct: Math.round(scores[c.id] / total * 100) }))
       .filter(c => c.score > 0)
@@ -1121,17 +1122,27 @@ function calc() {
   
   function sendToSheets() {
     try {
-      var chart = Object.values(Chart.instances)[0];
-      var sc = chart.data.datasets[0].data;
-      var nm = (document.getElementById('patName')||{}).value||'';
-      var em = (document.getElementById('patEmail')||{}).value||'';
-      var payload = { timestamp: new Date().toISOString(), name: nm, email: em,
-        B: sc[0], Min: sc[1], Eng: sc[2], VitC: sc[3],
-        Anti: sc[4], Neuro: sc[5], Lipid: sc[6], Horm: sc[7],
-        Meju: sc[8], Sora: sc[9] };
-      fetch('https://script.google.com/macros/s/AKfycbylxfIjmmx2L-Y-v4sNO-jxEydOoLiUG-UbAV3DYn6Goe0sU6f4iQx6E-3KILKMe43A/exec',
-        {method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    } catch(e) { console.warn('Sheet sync failed', e); }
+      var ps = window._productScores || {};
+      var nm = (document.getElementById('patName') || {value:''}).value;
+      var em = (document.getElementById('patEmail') || {value:''}).value;
+      var payload = {
+        timestamp: new Date().toISOString(),
+        name: nm, email: em,
+        bcomplex: ps.bcomplex||0, b12: ps.b12||0, b6: ps.b6||0, b1: ps.b1||0,
+        magnesium: ps.magnesium||0, zinc: ps.zinc||0, calcium: ps.calcium||0,
+        carnitine: ps.carnitine||0, aminocomp: ps.aminocomp||0, bcaa: ps.bcaa||0,
+        vitc: ps.vitc||0, glutathione: ps.glutathione||0, ala: ps.ala||0,
+        nac: ps.nac||0, selenium: ps.selenium||0, cerebrolysin: ps.cerebrolysin||0,
+        ginkgo: ps.ginkgo||0, methblue: ps.methblue||0, mejuoline: ps.mejuoline||0,
+        ilib: ps.ilib||0, omegaven: ps.omegaven||0, lipodissolve: ps.lipodissolve||0,
+        soragen: ps.soragen||0, cortisol: ps.cortisol||0
+      };
+      fetch('https://script.google.com/macros/s/AKfycbylxfIjmmx2L-Y-v4sNO-jxEydOoLiUG-UbAV3DYn6Goe0sU6f4iQx6E-3KILKMe43A/exec', {
+        method: 'POST', body: JSON.stringify(payload)
+      }).then(function(r){ return r.json(); }).then(function(d){
+        if (d.status === 'success') alert('Success!');
+      }).catch(function(err){ alert('Error: ' + err); });
+    } catch(e) { alert('Error: ' + e); }
   }
 
 function rst() {
