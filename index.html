@@ -4,40 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>靜脈營養點滴需求評估 | IV Nutrition Needs Assessment</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js">
-  function printResults() {
-    window.print();
-  }
-
-  function emailResults() {
-    var em = document.getElementById('patEmail') ? document.getElementById('patEmail').value.trim() : '';
-    if (!em) {
-      alert('\u8acb\u5148\u586b\u5beb Email \u6b04\u4f4d\u3002\nPlease fill in the Email field first.');
-      if (document.getElementById('patEmail')) document.getElementById('patEmail').focus();
-      return;
-    }
-    var nm = document.getElementById('patName') ? document.getElementById('patName').value.trim() : '';
-    var cards = document.querySelectorAll('.catcard');
-    var lines = [];
-    cards.forEach(function(c, i) {
-      if (i >= 8) return;
-      var nameEl = c.querySelector('div:first-child');
-      var pctEl  = c.querySelector('div:last-child');
-      var name = nameEl ? nameEl.textContent.trim() : '';
-      var pct  = pctEl  ? pctEl.textContent.trim()  : '';
-      lines.push((i + 1) + '. ' + name + '  ' + pct);
-    });
-    var header = nm ? ('\u59d3\u540d\uff1a' + nm + '\n\n') : '';
-    var body = header + '\u9ad8\u5206\u63a8\u85a6\u9805\u76ee\uff1a\n' + lines.join('\n') + '\n\n---\n\u975c\u8108\u71df\u990a\u9ede\u6ef4\u9700\u6c42\u8a55\u4f30\u7cfb\u7d71';
-    var subject = '\u60a8\u7684\u9ede\u6ef4\u9700\u6c42\u8a55\u4f30\u5831\u544a' + (nm ? ' - ' + nm : '');
-    var a = document.createElement('a');
-    a.href = 'mailto:' + em + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-
-</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif;background:#f0f4f8;color:#2d3748;line-height:1.6}
@@ -1058,6 +1025,38 @@ const RECS = {
 };
 
 
+
+  function printResults() {
+    window.print();
+  }
+
+  function emailResults() {
+    var em = document.getElementById('patEmail') ? document.getElementById('patEmail').value.trim() : '';
+    if (!em) {
+      alert('\u8acb\u5148\u586b\u5beb Email \u6b04\u4f4d\u3002\nPlease fill in the Email field first.');
+      if (document.getElementById('patEmail')) document.getElementById('patEmail').focus();
+      return;
+    }
+    var nm = document.getElementById('patName') ? document.getElementById('patName').value.trim() : '';
+    var cards = document.querySelectorAll('.catcard');
+    var lines = [];
+    cards.forEach(function(c, i) {
+      if (i >= 8) return;
+      var nameEl = c.querySelector('div:first-child');
+      var pctEl  = c.querySelector('div:last-child');
+      var name = nameEl ? nameEl.textContent.trim() : '';
+      var pct  = pctEl  ? pctEl.textContent.trim()  : '';
+      lines.push((i + 1) + '. ' + name + '  ' + pct);
+    });
+    var header = nm ? ('\u59d3\u540d\uff1a' + nm + '\n\n') : '';
+    var body = header + '\u9ad8\u5206\u63a8\u85a6\u9805\u76ee\uff1a\n' + lines.join('\n') + '\n\n---\n\u975c\u8108\u71df\u990a\u9ede\u6ef4\u9700\u6c42\u8a55\u4f30\u7cfb\u7d71';
+    var subject = '\u60a8\u7684\u9ede\u6ef4\u9700\u6c42\u8a55\u4f30\u5831\u544a' + (nm ? ' - ' + nm : '');
+    var a = document.createElement('a');
+    a.href = 'mailto:' + em + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
 
 function calc() {
         var nm = document.getElementById('patName') ? document.getElementById('patName').value.trim() : '';
