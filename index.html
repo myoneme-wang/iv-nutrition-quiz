@@ -808,9 +808,6 @@
       <button type="button" class="subbtn" onclick="calc();sendToSheets()">
         🔍 查看評估結果 &nbsp;|&nbsp; View My Results
       </button>
-      <button class="subbtn" style="background:#546e7a" onclick="printResults()">🖶 列印結果 Print Results</button>
-      <button class="subbtn" style="background:#1565c0" onclick="emailResults()">📧 寄送至 Email Send Results</button>
-      <div class="subnote">
         請盡量勾選所有符合您目前症狀的選項，結果更精準
         · Check all symptoms that currently apply to you for best accuracy
       </div>
@@ -867,6 +864,11 @@
     </div>
   </div>
 
+
+  <div style="text-align:center;margin-top:32px;padding-bottom:16px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+    <button class="subbtn" style="background:#546e7a" onclick="printResults()">🖶 列印結果 Print Results</button>
+    <button class="subbtn" style="background:#1565c0" onclick="emailResults()">📧 寄送至 Email Send Results</button>
+  </div>
 </div><!-- .wrap -->
 
 <script>
