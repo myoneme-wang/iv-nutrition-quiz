@@ -1096,7 +1096,7 @@ function calc() {
     // Pie chart: top 8 products
     const pieItems = sorted.slice(0, 8);
     if (window._chart) window._chart.destroy();
-    window._chart = new Chart(document.getElementById('cs'), {
+    window._chart = new Chart(document.getElementById('pc'), {
       type: 'doughnut',
       data: {
         labels: pieItems.map(c => c.zh),
