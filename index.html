@@ -1020,7 +1020,7 @@ function calc() {
     CATS.forEach(c => { scores[c.id] = 0; });
 
     document.querySelectorAll('#mf input[type=checkbox]:checked').forEach(cb => {
-      const w = Q[cb.name];
+      const w = Q[cb.id];
       if (!w) return;
       Object.entries(w).forEach(([id, v]) => { if (scores[id] !== undefined) scores[id] += v; });
     });
@@ -1053,6 +1053,7 @@ function calc() {
       },
       options: {
         responsive: true, maintainAspectRatio: true,
+        animation: false,
         plugins: {
           legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 8 } },
           tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.raw + '%' } }
@@ -1114,7 +1115,7 @@ function calc() {
     }
 
     document.getElementById('res').style.display = 'block';
-    document.getElementById('res').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('res').scrollIntoView();
   }
 
   
