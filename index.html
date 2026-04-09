@@ -865,287 +865,259 @@ const TQ = 60;
 // bvitamin=維生素B群, mineral=礦物質, energy=能量代謝, vitc=維生素C
 // antioxidant=抗氧化解毒, neuro=神經腦部, lipid=脂質細胞膜, adaptive=荷爾蒙調節
 const Q = {
-  // Section 1: 神經系統/認知
-  q1:  { neuro:8, bvitamin:4, mineral:2 },
-  q2:  { neuro:7, bvitamin:3, mineral:2 },
-  q3:  { bvitamin:5, antioxidant:4, neuro:2 },
-  q4:  { bvitamin:4, neuro:3, mineral:2 },
-  q5:  { mineral:5, bvitamin:3, neuro:2 },
-  q6:  { mineral:4, bvitamin:3, neuro:2, adaptive:2 },
-  q7:  { bvitamin:4, neuro:3, lipid:3, mineral:2 },
-  q8:  { mineral:4, bvitamin:3, antioxidant:2, adaptive:2 },
-  q9:  { antioxidant:5, bvitamin:4, neuro:6 },
-  q10: { neuro:8, bvitamin:4, antioxidant:3, mineral:2 },
-  // Section 2: 能量/疲勞
-  q11: { energy:5, bvitamin:4, mineral:3 },
-  q12: { energy:5, bvitamin:3, mineral:3, antioxidant:2 },
-  q13: { bvitamin:4, mineral:4, energy:3 },
-  q14: { bvitamin:4, energy:3, mineral:2 },
-  q15: { bvitamin:4, neuro:2, mineral:2 },
-  q16: { mineral:5, bvitamin:3, energy:3 },
-  q17: { bvitamin:4, energy:4, neuro:2 },
-  q18: { mineral:4, bvitamin:3, energy:3, adaptive:2 },
-  // Section 3: 免疫/感染
-  q19: { vitc:5, mineral:4, antioxidant:3 },
-  q20: { vitc:5, mineral:3, antioxidant:2 },
-  q21: { vitc:4, antioxidant:3, lipid:2, mineral:2 },
-  q22: { antioxidant:4, lipid:4, vitc:3, mineral:2 },
-  q23: { mineral:5, bvitamin:3 },
-  q24: { vitc:5, mineral:2, antioxidant:2 },
-  q25: { vitc:4, antioxidant:4, neuro:2, energy:2 },
-  q26: { vitc:5, mineral:4, antioxidant:3, energy:2 },
-  // Section 4: 肌肉/骨骼
-  q27: { mineral:5, bvitamin:3, adaptive:2 },
-  q28: { lipid:4, vitc:3, neuro:3, antioxidant:2 },
-  q29: { mineral:5, vitc:2, adaptive:2 },
-  q30: { energy:4, mineral:4, antioxidant:3 },
-  q31: { mineral:5, bvitamin:4 },
-  q32: { neuro:5, mineral:4, bvitamin:3, lipid:3 },
-  q33: { energy:5, mineral:3, bvitamin:3 },
-  // Section 5: 代謝/消化
-  q34: { antioxidant:5, mineral:4, bvitamin:3, energy:2 },
-  q35: { lipid:5, energy:3, vitc:2, antioxidant:2 },
-  q36: { energy:6, antioxidant:3, lipid:5 },
-  q37: { antioxidant:5, lipid:6, energy:5, vitc:2 },
-  q38: { bvitamin:3, mineral:2, adaptive:2 },
-  q39: { mineral:4, bvitamin:3, adaptive:2 },
-  q40: { antioxidant:5, vitc:3, bvitamin:2, mineral:2 },
+  // Section 1: 神經/認知
+  q1:  { cerebrolysin:8, ginkgo:6, b12:4, methblue:4, b6:3 },
+  q2:  { cerebrolysin:7, methblue:5, ginkgo:5, b12:4, b6:3 },
+  q3:  { b12:7, b6:5, b1:4, ala:4, cerebrolysin:3 },
+  q4:  { ginkgo:5, magnesium:4, b12:4, b6:3, b1:3 },
+  q5:  { magnesium:6, ginkgo:4, b12:3, mejuoline:3, b6:2 },
+  q6:  { magnesium:6, soragen:4, mejuoline:3, b12:3, ginkgo:2 },
+  q7:  { b12:5, b6:5, cerebrolysin:4, omegaven:4, magnesium:3, mejuoline:3 },
+  q8:  { magnesium:6, b6:4, b12:3, glutathione:3, soragen:3 },
+  q9:  { cerebrolysin:7, ala:6, b12:5, b6:4, glutathione:4 },
+  q10: { cerebrolysin:8, methblue:6, b12:4, glutathione:4, magnesium:2 },
+  // Section 2: 能量/體力
+  q11: { carnitine:6, b12:5, mejuoline:4, b6:4, magnesium:4, aminocomp:3 },
+  q12: { carnitine:6, bcaa:5, aminocomp:4, glutathione:3, magnesium:3, b12:3 },
+  q13: { magnesium:5, carnitine:5, bcaa:4, aminocomp:4, b12:3 },
+  q14: { carnitine:5, b12:4, aminocomp:3, b6:3, magnesium:3 },
+  q15: { ginkgo:5, carnitine:4, b12:4, b6:3, magnesium:3 },
+  q16: { magnesium:5, ginkgo:4, b6:3, carnitine:3 },
+  q17: { carnitine:4, aminocomp:4, b12:4, bcaa:3, magnesium:3 },
+  q18: { magnesium:4, b6:3, carnitine:3, soragen:3 },
+  // Section 3: 免疫/抗氧化/慢性病
+  q19: { vitc:6, magnesium:4, glutathione:3, zinc:3 },
+  q20: { vitc:6, glutathione:3, selenium:3, zinc:3, magnesium:3 },
+  q21: { vitc:5, glutathione:4, omegaven:3, ala:3, magnesium:2 },
+  q22: { glutathione:5, omegaven:4, vitc:4, ala:3, selenium:2 },
+  q23: { magnesium:5, b6:3, b1:3, zinc:3 },
+  q24: { vitc:5, selenium:5, zinc:3, ala:3 },
+  q25: { vitc:5, glutathione:4, omegaven:4, ala:3, carnitine:2 },
+  q26: { vitc:5, glutathione:4, magnesium:4, selenium:3, omegaven:3 },
+  q27: { calcium:6, magnesium:5, b12:3, vitc:2 },
+  q28: { omegaven:5, vitc:4, cerebrolysin:3, ginkgo:3, glutathione:3 },
+  q29: { magnesium:5, ginkgo:4, vitc:3, b12:3 },
+  q30: { magnesium:4, carnitine:4, glutathione:3, b12:3 },
+  // Section 4: 骨骼/肌肉/疼痛
+  q31: { magnesium:6, b12:5, b6:3, carnitine:3 },
+  q32: { cerebrolysin:5, magnesium:5, b12:4, calcium:3, ala:3 },
+  q33: { carnitine:5, bcaa:5, aminocomp:4, magnesium:3, b12:3 },
+  // Section 5: 代謝/體重/消化
+  q34: { ala:6, glutathione:4, b6:4, magnesium:4, vitc:3 },
+  q35: { omegaven:6, lipodissolve:5, carnitine:4, glutathione:2, vitc:2 },
+  q36: { carnitine:7, lipodissolve:6, ala:3, glutathione:3, aminocomp:2 },
+  q37: { lipodissolve:7, soragen:6, glutathione:5, ala:4, carnitine:4 },
+  q38: { magnesium:4, b6:4, b1:3, zinc:3, soragen:3 },
+  q39: { b12:4, magnesium:4, b6:3, zinc:3, soragen:3 },
+  q40: { glutathione:6, nac:5, ala:5, vitc:4, selenium:3 },
   // Section 6: 心血管
-  q41: { mineral:5, lipid:4, energy:3 },
-  q42: { mineral:5, energy:4, bvitamin:2 },
-  q43: { neuro:4, energy:3, bvitamin:3, mineral:2 },
-  q44: { energy:5, lipid:4, mineral:3, antioxidant:2 },
-  q45: { energy:4, mineral:3, bvitamin:3 },
-  q46: { lipid:5, antioxidant:3, energy:3, vitc:2 },
-  // Section 7: 皮膚/抗氧化
-  q47: { mineral:4, vitc:3, antioxidant:3 },
-  q48: { vitc:5, antioxidant:4, lipid:2 },
-  q49: { mineral:4, bvitamin:4, antioxidant:2 },
-  q50: { mineral:4, bvitamin:3, antioxidant:2 },
-  q51: { lipid:4, vitc:3, antioxidant:3 },
-  q52: { antioxidant:4, vitc:3, neuro:3, energy:2 },
-  q53: { antioxidant:5, vitc:4, lipid:2 },
-  // Section 8: 情緒/壓力
-  q54: { adaptive:5, mineral:4, bvitamin:3, vitc:3 },
-  q55: { adaptive:5, bvitamin:4, vitc:3, mineral:3 },
-  q56: { bvitamin:4, energy:4, neuro:2 },
-  q57: { mineral:4, bvitamin:3, adaptive:2 },
-  q58: { adaptive:4, mineral:3, bvitamin:3, lipid:2 },
-  q59: { adaptive:4, mineral:4, bvitamin:3, vitc:3 },
-  q60: { bvitamin:4, mineral:3, lipid:3, antioxidant:2 }
+  q41: { magnesium:6, omegaven:4, carnitine:3, soragen:3 },
+  q42: { magnesium:6, carnitine:5, b12:4, b6:3 },
+  q43: { ginkgo:5, carnitine:4, omegaven:3, b12:3, magnesium:3 },
+  q44: { omegaven:5, carnitine:5, magnesium:4, glutathione:3, vitc:3 },
+  q45: { carnitine:5, magnesium:4, omegaven:4, b12:3 },
+  q46: { omegaven:6, lipodissolve:5, glutathione:4, vitc:3, carnitine:3 },
+  // Section 7: 皮膚/外觀/老化
+  q47: { zinc:5, vitc:4, glutathione:4, omegaven:3 },
+  q48: { vitc:6, glutathione:6, ilib:5, b12:3 },
+  q49: { b12:5, zinc:5, b6:4, selenium:3, aminocomp:3 },
+  q50: { zinc:4, b12:4, b6:3, selenium:3, calcium:3 },
+  q51: { omegaven:5, vitc:4, glutathione:4, lipodissolve:4 },
+  q52: { glutathione:5, ilib:5, vitc:4, omegaven:4, ala:4 },
+  q53: { glutathione:6, nac:5, ala:5, vitc:4, selenium:4 },
+  // Section 8: 壓力/荷爾蒙/情緒
+  q54: { soragen:6, magnesium:5, mejuoline:4, b12:4, cortisol:3 },
+  q55: { soragen:6, cortisol:5, vitc:4, mejuoline:4, b12:4, magnesium:4 },
+  q56: { b12:5, mejuoline:5, carnitine:4, b6:4, cerebrolysin:3 },
+  q57: { magnesium:5, b6:5, b12:4, mejuoline:3, soragen:3 },
+  q58: { b6:5, soragen:5, omegaven:4, magnesium:4, mejuoline:3 },
+  q59: { soragen:5, magnesium:5, vitc:4, mejuoline:3, b12:4, cortisol:3 },
+  q60: { magnesium:5, mejuoline:4, b6:4, b12:3, omegaven:3 },
+  // Section 9: 女性生殖健康
+  q61: { soragen:5, magnesium:4, b6:4, zinc:3, omegaven:3 },
+  q62: { soragen:5, ala:5, b6:4, magnesium:4, zinc:3 },
+  q63: { soragen:5, omegaven:5, vitc:4, glutathione:4, b6:3 },
+  q64: { soragen:4, vitc:4, zinc:4, b12:4, selenium:3, omegaven:3 },
+  q65: { soragen:5, vitc:5, zinc:4, omegaven:4, selenium:3 },
+  q66: { b12:5, soragen:4, magnesium:4, zinc:3, omegaven:3 },
+  // Section 10: 男性健康
+  q67: { zinc:6, carnitine:5, vitc:5, selenium:5, glutathione:4 },
+  q68: { soragen:5, zinc:5, ginkgo:4, carnitine:4, b12:4 },
+  q69: { soragen:5, zinc:4, carnitine:4, b12:4, cortisol:3 },
+  q70: { soragen:5, zinc:5, cortisol:4, carnitine:4, b12:3 },
+  q71: { soragen:4, zinc:4, magnesium:4, b12:4, b6:3 },
+  q72: { zinc:6, selenium:4, omegaven:4, soragen:3 },
+  q73: { soragen:5, zinc:5, cortisol:4, mejuoline:3, b12:4, carnitine:3 },
+  // Section 11: 運動表現
+  q74: { bcaa:6, carnitine:5, aminocomp:5, magnesium:4, glutathione:3 },
+  q75: { bcaa:6, magnesium:5, carnitine:5, aminocomp:3, b12:3 },
+  q76: { carnitine:6, bcaa:5, aminocomp:4, magnesium:3, b12:3 },
+  q77: { bcaa:5, aminocomp:5, carnitine:5, magnesium:4, b12:3 },
+  q78: { aminocomp:6, bcaa:6, carnitine:4, magnesium:3, b12:3 },
+  q79: { magnesium:7, calcium:5, b6:3, carnitine:3, b12:3 },
+  q80: { vitc:5, glutathione:5, zinc:4, selenium:3, bcaa:3 },
 };
+
 
 const CATS = [
-  { id:'bvitamin',    zh:'維生素 B 群',    en:'B-Vitamins',          color:'#3182ce', icon:'🧬', bg:'#ebf8ff' },
-  { id:'mineral',     zh:'礦物質',         en:'Minerals',            color:'#38a169', icon:'⚡', bg:'#f0fff4' },
-  { id:'energy',      zh:'能量代謝',        en:'Energy Metabolism',   color:'#dd6b20', icon:'🔋', bg:'#fffaf0' },
-  { id:'vitc',        zh:'維生素 C',        en:'Vitamin C',           color:'#d69e2e', icon:'🍊', bg:'#fffff0' },
-  { id:'antioxidant', zh:'抗氧化 / 解毒',   en:'Antioxidant & Detox', color:'#805ad5', icon:'🧪', bg:'#faf5ff' },
-  { id:'neuro',       zh:'神經 / 腦部',     en:'Brain & Neuro',       color:'#2c7a7b', icon:'🧠', bg:'#e6fffa' },
-  { id:'lipid',       zh:'脂質 / 細胞膜',   en:'Lipid & Cell Membrane',color:'#c53030', icon:'🫀', bg:'#fff5f5' },
-  { id:'adaptive',    zh:'荷爾蒙調節',      en:'Hormonal Support',    color:'#b7791f', icon:'🌿', bg:'#fffbeb' },
-  { id:'mejuoline', zh:'Mejuoline® 養護', en:'Mejuoline IV', color:'#2d6a4f', icon:'🔬', bg:'#d8f3dc' },
-  { id:'soragen',   zh:'Soragen-S 修復',  en:'Soragen-S IV', color:'#6d4c41', icon:'🍀', bg:'#fbe9e7' }
-];
+  { id:'bcomplex',     zh:'B群複方',          en:'B-Complex',          color:'#4299e1', icon:'💊' },
+  { id:'b12',          zh:'維生素 B12',        en:'Vitamin B12',        color:'#63b3ed', icon:'🔵' },
+  { id:'b6',           zh:'維生素 B6',         en:'Vitamin B6',         color:'#76e4f7', icon:'🔹' },
+  { id:'b1',           zh:'維生素 B1',         en:'Vitamin B1',         color:'#90cdf4', icon:'🔷' },
+  { id:'magnesium',    zh:'硫酸鎂',            en:'Magnesium',          color:'#48bb78', icon:'🟢' },
+  { id:'zinc',         zh:'硫酸鋅',            en:'Zinc',               color:'#38a169', icon:'💚' },
+  { id:'calcium',      zh:'鈣質 VitaCAL',      en:'Calcium VitaCAL',   color:'#68d391', icon:'🦴' },
+  { id:'carnitine',    zh:'左旋肉鹼',           en:'L-Carnitine',        color:'#ed8936', icon:'🔥' },
+  { id:'aminocomp',    zh:'胺基酸複方',         en:'Amino Composite',    color:'#f6ad55', icon:'💪' },
+  { id:'bcaa',         zh:'BCAA',              en:'BCAA',               color:'#fbd38d', icon:'🏋️' },
+  { id:'vitc',         zh:'維生素 C',           en:'Vitamin C',          color:'#ecc94b', icon:'🍋' },
+  { id:'glutathione',  zh:'穀胱甘肽',           en:'Glutathione',        color:'#9f7aea', icon:'✨' },
+  { id:'ala',          zh:'α-硫辛酸',          en:'Alpha-Lipoic Acid',  color:'#b794f4', icon:'🔮' },
+  { id:'nac',          zh:'NAC',               en:'NAC',                color:'#d6bcfa', icon:'🛡️' },
+  { id:'selenium',     zh:'硒',                en:'Selenium',           color:'#c6f6d5', icon:'⚡' },
+  { id:'cerebrolysin', zh:'Cerebrolysin',      en:'Cerebrolysin',       color:'#667eea', icon:'🧠' },
+  { id:'ginkgo',       zh:'銀杏萃取',           en:'Ginkgo Biloba',      color:'#7f9cf5', icon:'🌿' },
+  { id:'methblue',     zh:'甲烯藍',             en:'Methylene Blue',     color:'#4fd1c5', icon:'💙' },
+  { id:'mejuoline',    zh:'Mejuoline®',        en:'Mejuoline®',         color:'#81e6d9', icon:'🌟' },
+  { id:'ilib',         zh:'靜脈雷射 ILIB',      en:'IV Laser ILIB',      color:'#f687b3', icon:'💡' },
+  { id:'omegaven',     zh:'Omega-3 魚油',       en:'Omegaven Omega-3',   color:'#38b2ac', icon:'🐟' },
+  { id:'lipodissolve', zh:'磷脂醯膽鹼',         en:'Lipodissolve PC',    color:'#319795', icon:'⚙️' },
+  { id:'soragen',      zh:'Soragen-S',         en:'Soragen-S',          color:'#fc8181', icon:'🌸' },
+  { id:'cortisol',     zh:'腎上腺皮質素',        en:'Solu-cortef',        color:'#f56565', icon:'💪' },
+]
 
 const RECS = {
-  bvitamin: {
-    zh: '維生素 B 群點滴', en: 'Vitamin B Complex IV',
-    tests: [
-      'B-complex（維生素B群複方點滴）',
-      'Hydroxocobalamin（Vitamin B12 — 羥鈷胺）',
-      'Pyridoxal Phosphate（B6活化型 — 磷酸吡哆醛）',
-      'Thiamine Hydrochloride（B1 — 鹽酸硫胺素）'
-    ]
-  },
-  mineral: {
-    zh: '礦物質點滴', en: 'Mineral IV',
-    tests: [
-      'Magnesium Sulfate（硫酸鎂點滴）',
-      'Zinc Sulfate（硫酸鋅點滴）',
-      'VitaCAL（鈣質點滴）'
-    ]
-  },
-  energy: {
-    zh: '能量代謝點滴', en: 'Energy Metabolism IV',
-    tests: [
-      'L-Carnitine / Levotysis（左旋肉鹼點滴）',
-      'Amino Composite（胺基酸複方點滴）',
-      '7% Nephrosteril（支鏈胺基酸 BCAA 點滴）'
-    ]
-  },
-  vitc: {
-    zh: '高劑量維生素 C 點滴', en: 'High-Dose Vitamin C IV',
-    tests: [
-      'PanNobel（維生素C靜脈點滴）'
-    ]
-  },
-  antioxidant: {
-    zh: '抗氧化 / 解毒點滴', en: 'Antioxidant & Detox IV',
-    tests: [
-      'Agifutol（Glutathione 穀胱甘肽點滴）',
-      'Thioccan（Alpha-Lipoic Acid α-硫辛酸點滴）',
-      'Encore（NAC — N-乙醯半胱氨酸點滴）',
-      'Zelnite（Selenium 硒 — 抗氧化礦物點滴）'
-    ]
-  },
-  neuro: {
-    zh: '神經 / 腦部支持點滴', en: 'Brain & Neuro Support IV',
-    tests: [
-      'Cerebrolysin（神經營養胜肽點滴）',
-      'Trentine（Ginkgo Biloba Extract 銀杏萃取點滴）',
-      'Methylene Blue（甲烯藍點滴）',
-      'Mejuoline（複方神經支持點滴）',
-      '靜脈雷射（ILIB — 紅藍紫綠雷射）'
-    ]
-  },
-  lipid: {
-    zh: '脂質 / 細胞膜點滴', en: 'Lipid & Cell Membrane IV',
-    tests: [
-      'Omegaven（Omega-3 靜脈魚油點滴）',
-      'Lipodissolve — 肝得健（PC 多烯磷脂醯膽鹼點滴）'
-    ]
-  },
-  adaptive: {
-    zh: '荷爾蒙調節 / 適應原點滴', en: 'Hormonal & Adaptogenic IV',
-    tests: [
-      'Soragen-S（甘草酸 Glycyrrhizin 點滴）',
-      'Solu-cortef（Hydrocortisone 氫化可體松點滴）'
-    ]
-  },
-  mejuoline: {
-    zh: 'Mejuoline® B群+甲硫胺酸點滴', en: 'Mejuoline® IV (B-vitamins + DL-Methionine)',
-    tests: ['Mejuoline® (DL-Methionine 20mg, Thiamine 1.5mg, Riboflavin 0.1mg, Nicotinamide 2mg)',
-            '適合: 慢性疲勞、神經症狀、情緒低落、肝臟代謝負擔、高同型半胱氨酸']
-  },
-  soragen: {
-    zh: 'Soragen-S 肝臟修復點滴', en: 'Soragen-S IV (Glycyrrhizic Acid + L-Cysteine + Glycine)',
-    tests: ['Soragen-S (Glycyrrhizic Acid 2mg/mL, L-Cysteine 1mg/mL, Glycine 20mg/mL)',
-            '適合: 慢性肝炎、氧化壓力高、失眠、關節退化、病毒感染後護肝']
-  },
+  bcomplex:     { zh: 'B群複方點滴',           en: 'B-Complex IV',                        color: '#4299e1', icon: '💊' },
+  b12:          { zh: '維生素 B12 點滴',        en: 'Vitamin B12 IV (Hydroxocobalamin)',    color: '#63b3ed', icon: '🔵' },
+  b6:           { zh: '維生素 B6 點滴',         en: 'Vitamin B6 IV (Pyridoxal Phosphate)', color: '#76e4f7', icon: '🔹' },
+  b1:           { zh: '維生素 B1 點滴',         en: 'Vitamin B1 IV (Thiamine HCl)',        color: '#90cdf4', icon: '🔷' },
+  magnesium:    { zh: '硫酸鎂點滴',             en: 'Magnesium Sulfate IV',                color: '#48bb78', icon: '🟢' },
+  zinc:         { zh: '硫酸鋅點滴',             en: 'Zinc Sulfate IV',                     color: '#38a169', icon: '💚' },
+  calcium:      { zh: '鈣質點滴 VitaCAL',       en: 'VitaCAL IV',                          color: '#68d391', icon: '🦴' },
+  carnitine:    { zh: '左旋肉鹼 Levotysis',     en: 'L-Carnitine / Levotysis IV',          color: '#ed8936', icon: '🔥' },
+  aminocomp:    { zh: '胺基酸複方點滴',         en: 'Amino Composite IV',                  color: '#f6ad55', icon: '💪' },
+  bcaa:         { zh: 'BCAA 點滴 Nephrosteril', en: 'BCAA IV (7% Nephrosteril)',            color: '#fbd38d', icon: '🏋️' },
+  vitc:         { zh: '高劑量維生素 C 點滴',    en: 'High-Dose Vitamin C IV (PanNobel)',    color: '#ecc94b', icon: '🍋' },
+  glutathione:  { zh: '穀胱甘肽點滴 Agifutol',  en: 'Glutathione IV (Agifutol)',            color: '#9f7aea', icon: '✨' },
+  ala:          { zh: 'α-硫辛酸點滴 Thioccan',  en: 'Alpha-Lipoic Acid IV (Thioccan)',     color: '#b794f4', icon: '🔮' },
+  nac:          { zh: 'NAC 點滴 Encore',        en: 'NAC IV (Encore)',                     color: '#d6bcfa', icon: '🛡️' },
+  selenium:     { zh: '硒點滴 Zelnite',         en: 'Selenium IV (Zelnite)',               color: '#c6f6d5', icon: '⚡' },
+  cerebrolysin: { zh: 'Cerebrolysin 神經肽點滴', en: 'Cerebrolysin IV',                    color: '#667eea', icon: '🧠' },
+  ginkgo:       { zh: '銀杏萃取點滴 Trentine',  en: 'Ginkgo Biloba IV (Trentine)',         color: '#7f9cf5', icon: '🌿' },
+  methblue:     { zh: '甲烯藍點滴',             en: 'Methylene Blue IV',                   color: '#4fd1c5', icon: '💙' },
+  mejuoline:    { zh: 'Mejuoline® B群+甲硫胺酸', en: 'Mejuoline® IV',                     color: '#81e6d9', icon: '🌟' },
+  ilib:         { zh: '靜脈雷射 ILIB',          en: 'IV Laser Therapy (ILIB)',             color: '#f687b3', icon: '💡' },
+  omegaven:     { zh: 'Omega-3 魚油點滴',        en: 'Omega-3 IV (Omegaven)',               color: '#38b2ac', icon: '🐟' },
+  lipodissolve: { zh: '磷脂醯膽鹼 Lipodissolve', en: 'Lipodissolve PC IV',                 color: '#319795', icon: '⚙️' },
+  soragen:      { zh: 'Soragen-S 肝臟/荷爾蒙點滴', en: 'Soragen-S IV (Glycyrrhizin)',      color: '#fc8181', icon: '🌸' },
+  cortisol:     { zh: '腎上腺皮質素 Solu-cortef', en: 'Solu-cortef IV (Hydrocortisone)',   color: '#f56565', icon: '💪' },
 };
 
-let chartInst = null;
 
-function u(cb) {
-  const checked = document.querySelectorAll('#mf input[type=checkbox]:checked').length;
-  document.getElementById('cc').textContent = checked;
-  document.getElementById('pf').style.width = (checked / TQ * 100) + '%';
-  const lbl = document.getElementById('L-' + cb.id);
-  if (lbl) lbl.classList.toggle('ck', cb.checked);
-}
 
 function calc() {
-  const checked = [...document.querySelectorAll('#mf input[type=checkbox]:checked')].map(c => c.id);
-  if (!checked.length) {
-    document.getElementById('es').style.display = 'block';
-    document.getElementById('cs').style.display = 'none';
-    document.getElementById('cg').style.display = 'none';
-    document.getElementById('rb').style.display = 'none';
+    const scores = {};
+    CATS.forEach(c => { scores[c.id] = 0; });
+
+    document.querySelectorAll('#mf input[type=checkbox]:checked').forEach(cb => {
+      const w = Q[cb.name];
+      if (!w) return;
+      Object.entries(w).forEach(([id, v]) => { if (scores[id] !== undefined) scores[id] += v; });
+    });
+
+    const total = Object.values(scores).reduce((a, b) => a + b, 0) || 1;
+    const sorted = CATS
+      .map(c => ({ ...c, score: scores[c.id], pct: Math.round(scores[c.id] / total * 100) }))
+      .filter(c => c.score > 0)
+      .sort((a, b) => b.score - a.score);
+
+    if (sorted.length === 0) {
+      alert('請至少勾選一項症狀。\nPlease select at least one symptom.');
+      return;
+    }
+
+    const checked = document.querySelectorAll('#mf input:checked').length;
+    document.querySelector('.rbanner').innerHTML =
+      '<div style="font-size:2rem;font-weight:800">🧬 點滴個人化需求分析</div>' +
+      '<div style="font-size:1rem;opacity:.85;margin-top:6px">已勾選 <b>' + checked + '</b> 項症狀，以下為您的個人化靜脈點滴需求</div>' +
+      '<div style="font-size:.85rem;opacity:.7;margin-top:4px">IV Nutrition Personalized Analysis — ' + checked + ' symptoms selected</div>';
+
+    // Pie chart: top 8 products
+    const pieItems = sorted.slice(0, 8);
+    if (window._chart) window._chart.destroy();
+    window._chart = new Chart(document.getElementById('cs'), {
+      type: 'doughnut',
+      data: {
+        labels: pieItems.map(c => c.zh),
+        datasets: [{ data: pieItems.map(c => c.pct), backgroundColor: pieItems.map(c => c.color), borderWidth: 2, borderColor: '#fff' }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: true,
+        plugins: {
+          legend: { position: 'bottom', labels: { font: { size: 11 }, padding: 8 } },
+          tooltip: { callbacks: { label: ctx => ' ' + ctx.label + ': ' + ctx.raw + '%' } }
+        }
+      }
+    });
+
+    // Product cards
+    let gridEl = document.querySelector('.catgrid');
+    if (!gridEl) {
+      gridEl = document.createElement('div');
+      gridEl.className = 'catgrid';
+      document.querySelector('#res').insertBefore(gridEl, document.querySelector('.recbox'));
+    }
+    gridEl.style.cssText = 'display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px;margin:20px 0;';
+    gridEl.innerHTML = '';
+
+    sorted.forEach((c, i) => {
+      const rank = i + 1;
+      const badgeCls = rank === 1 ? 'rh' : rank <= 3 ? 'rm' : 'rl';
+      const badgeLbl = rank === 1 ? '最高需求 Top' : rank <= 3 ? '高需求 High' : '建議 Rec';
+      const bar = Math.min(c.pct * 2, 100);
+      const card = document.createElement('div');
+      card.className = 'catcard';
+      card.style.cssText = 'border-left:5px solid ' + c.color + ';background:#fff;border-radius:12px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.08);';
+      card.innerHTML =
+        '<div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">' +
+          '<span style="font-size:1.5rem">' + c.icon + '</span>' +
+          '<div style="flex:1">' +
+            '<div style="font-weight:700;font-size:.95rem;color:#2d3748">' + c.zh + '</div>' +
+            '<div style="font-size:.75rem;color:#718096">' + c.en + '</div>' +
+          '</div>' +
+          '<span class="rbadge ' + badgeCls + '" style="font-size:.65rem;padding:3px 7px;border-radius:20px;white-space:nowrap">' + badgeLbl + '</span>' +
+        '</div>' +
+        '<div style="background:#f7fafc;border-radius:8px;padding:8px 12px;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+            '<span style="font-size:.82rem;color:#4a5568">需求強度</span>' +
+            '<span style="font-weight:700;color:' + c.color + ';font-size:1rem">' + c.pct + '%</span>' +
+          '</div>' +
+          '<div style="background:#e2e8f0;border-radius:4px;height:5px;margin-top:5px;">' +
+            '<div style="background:' + c.color + ';width:' + bar + '%;height:100%;border-radius:4px;"></div>' +
+          '</div>' +
+        '</div>';
+      gridEl.appendChild(card);
+    });
+
+    // Recommendations box: top 3
+    const top3 = sorted.slice(0, 3);
+    const recbox = document.querySelector('.recbox');
+    if (recbox) {
+      recbox.innerHTML = '<h3 style="margin-bottom:12px;color:#2d3748">🎯 優先建議點滴 Top Priority IV Recommendations</h3>' +
+        top3.map(c =>
+          '<div style="margin-bottom:10px;padding:10px;background:rgba(255,255,255,.7);border-radius:8px;">' +
+            '<div style="font-weight:700;color:#2d3748">' + c.icon + ' ' + c.zh +
+              ' <span style="color:#718096;font-weight:400;font-size:.85rem">(' + c.en + ')</span></div>' +
+            '<div style="font-size:.82rem;color:#4a5568;margin-top:3px">需求佔比 Score Share: <b>' + c.pct + '%</b></div>' +
+          '</div>'
+        ).join('');
+    }
+
     document.getElementById('res').style.display = 'block';
     document.getElementById('res').scrollIntoView({ behavior: 'smooth' });
-    return;
-  }
-  document.getElementById('es').style.display = 'none';
-  document.getElementById('cs').style.display = 'block';
-  document.getElementById('cg').style.display = '';
-  document.getElementById('rb').style.display = 'block';
-
-  const scores = {};
-  CATS.forEach(c => { scores[c.id] = 0; });
-  let totalScore = 0;
-  checked.forEach(qid => {
-    const weights = Q[qid] || {};
-    Object.entries(weights).forEach(([cat, pts]) => {
-      if (scores[cat] !== undefined) { scores[cat] += pts; totalScore += pts; }
-    });
-  });
-
-  document.getElementById('fc').textContent = checked.length;
-  document.getElementById('ts').textContent = totalScore;
-
-  const pcts = {};
-  CATS.forEach(c => { pcts[c.id] = totalScore > 0 ? Math.round(scores[c.id] / totalScore * 100) : 0; });
-
-  const ctx = document.getElementById('pc').getContext('2d');
-  if (chartInst) chartInst.destroy();
-  chartInst = new Chart(ctx, {
-    type: 'doughnut',
-    data: {
-      labels: CATS.map(c => c.zh),
-      datasets: [{
-        data: CATS.map(c => scores[c.id] || 0.1),
-        backgroundColor: CATS.map(c => c.color + 'cc'),
-        borderColor: CATS.map(c => c.color),
-        borderWidth: 2
-      }]
-    },
-    options: {
-      responsive: true, maintainAspectRatio: true,
-      plugins: { legend: { display: false } },
-      cutout: '62%'
-    }
-  });
-
-  const legEl = document.getElementById('cl');
-  legEl.innerHTML = CATS.map(c =>
-    `<div class="legitem">
-      <div class="legdot" style="background:${c.color}"></div>
-      <span class="legname">${c.zh}<br><small style="color:#a0aec0;font-weight:400">${c.en}</small></span>
-      <span class="legpct" style="color:${c.color}">${pcts[c.id]}%</span>
-    </div>`
-  ).join('');
-
-  const grid = document.getElementById('cg');
-  const sorted = [...CATS].sort((a,b) => scores[b.id] - scores[a.id]);
-  grid.innerHTML = sorted.map(c => {
-    const pct = pcts[c.id];
-    const risk = pct >= 50 ? 'rh' : pct >= 25 ? 'rm' : pct >= 10 ? 'rl' : 'rn';
-    const riskLabel = pct >= 50 ? '高需求' : pct >= 25 ? '中需求' : pct >= 10 ? '低需求' : '目前正常';
-    const riskEn = pct >= 50 ? 'High Need' : pct >= 25 ? 'Moderate Need' : pct >= 10 ? 'Low Need' : 'Normal';
-    return `<div class="catcard" style="border-color:${c.color}">
-      <div class="cchd">
-        <span class="ccico">${c.icon}</span>
-        <div><div class="cczh">${c.zh}</div><div class="ccen">${c.en}</div></div>
-      </div>
-      <div class="ccbar"><div class="ccfill" style="width:${pct}%;background:${c.color}"></div></div>
-      <div class="ccpct" style="color:${c.color}">${pct}%</div>
-      <span class="rbadge ${risk}">${riskLabel} · ${riskEn}</span>
-    </div>`;
-  }).join('');
-
-  const recEl = document.getElementById('rl');
-  const highCats = sorted.filter(c => pcts[c.id] >= 15);
-  if (highCats.length) {
-    recEl.innerHTML = highCats.map(c => {
-      const rec = RECS[c.id];
-      if (!rec) return '';
-      const pct = pcts[c.id];
-      return `<div class="reccard">
-        <h4>${c.icon} ${rec.zh} · <span style="font-weight:400;color:#718096">${rec.en}</span>
-          <span class="rbadge ${pct>=50?'rh':pct>=25?'rm':'rl'}" style="margin-left:8px">${pct}%</span>
-        </h4>
-        <ul>${rec.tests.map(t => `<li>${t}</li>`).join('')}</ul>
-      </div>`;
-    }).join('');
-  } else {
-    recEl.innerHTML = '<p style="font-size:.85rem;color:#718096">目前勾選症狀較少，建議多勾選確實符合的症狀後重新評估。<br><small>Please check more applicable symptoms for a more accurate assessment.</small></p>';
   }
 
-  document.getElementById('res').style.display = 'block';
-      // Process data-w on new questions (q61+)
-      document.querySelectorAll('#mf input[type=checkbox]:checked[data-w]').forEach(function(el) {
-        var pairs = el.getAttribute('data-w').split('|');
-        pairs.forEach(function(p) {
-          var parts = p.split('~'); var cat = parts[0]; var pts = parseInt(parts[1]) || 0;
-          if (scores[cat] !== undefined) scores[cat] += pts;
-        });
-      });
-      scores.mejuoline = (scores.mejuoline || 0) + Math.round((scores.bvitamin||0)*0.4 + (scores.energy||0)*0.3 + (scores.neuro||0)*0.3);
-      scores.soragen = (scores.soragen || 0) + Math.round((scores.antioxidant||0)*0.5 + (scores.adaptive||0)*0.5);
-  document.getElementById('res').scrollIntoView({ behavior: 'smooth' });
-}
-
+  
   function sendToSheets() {
     try {
       var chart = Object.values(Chart.instances)[0];
