@@ -1195,9 +1195,9 @@ function calc() {
         nac: ps.nac||0, selenium: ps.selenium||0, cerebrolysin: ps.cerebrolysin||0,
         ginkgo: ps.ginkgo||0, methblue: ps.methblue||0, mejuoline: ps.mejuoline||0,
         ilib: ps.ilib||0, omegaven: ps.omegaven||0, lipodissolve: ps.lipodissolve||0,
-        soragen: ps.soragen||0, cortisol: ps.cortisol||0
+        soragen: ps.soragen||0, cortisol: ps.cortisol||0,            taurine: ps.taurine||0
       };
-      fetch('https://script.google.com/macros/s/AKfycbylxfIjmmx2L-Y-v4sNO-jxEydOoLiUG-UbAV3DYn6Goe0sU6f4iQx6E-3KILKMe43A/exec', {
+      fetch('https://script.google.com/macros/s/AKfycbxbDz7USExAl4wq7duNRQ15iCnl6-eAn3HW63i8ob0w7a4z_PfXpMd5V-nknMCCBzFH/exec', {
         method: 'POST', body: JSON.stringify(payload)
       }).then(function(r){ return r.json(); }).then(function(d){
         if (d.status === 'success') alert('Success!');
