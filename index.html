@@ -799,6 +799,13 @@
           <div class="qen">Decreased immunity after exercise</div>
         </div>
       </label>
+      <label class="qi" id="L-q81">
+        <input type="checkbox" id="q81" onchange="u(this)" data-w="">
+        <div class="qlbl">
+          <div class="qzh">常吃碳水化合物</div>
+          <div class="qen">High carbohydrate diet</div>
+        </div>
+      </label>
     </div>
     <div class="subwrap">
     <div class="patinfo">
@@ -889,12 +896,12 @@ const Q = {
   q9:  { cerebrolysin:7, ala:6, b12:5, b6:4, glutathione:4 },
   q10: { cerebrolysin:8, methblue:6, b12:4, glutathione:4, magnesium:2 },
   // Section 2: 能量/體力
-  q11: { carnitine:6, b12:5, mejuoline:4, b6:4, magnesium:4, aminocomp:3 },
+  q11: { carnitine:6, b12:5, mejuoline:4, b6:4, magnesium:4, aminocomp:3, taurine:3 },
   q12: { carnitine:6, bcaa:5, aminocomp:4, glutathione:3, magnesium:3, b12:3 },
   q13: { magnesium:5, carnitine:5, bcaa:4, aminocomp:4, b12:3 },
   q14: { carnitine:5, b12:4, aminocomp:3, b6:3, magnesium:3 },
   q15: { ginkgo:5, carnitine:4, b12:4, b6:3, magnesium:3 },
-  q16: { magnesium:5, ginkgo:4, b6:3, carnitine:3 },
+  q16: { magnesium:5, ginkgo:4, b6:3, carnitine:3, taurine:5 },
   q17: { carnitine:4, aminocomp:4, b12:4, bcaa:3, magnesium:3 },
   q18: { magnesium:4, b6:3, carnitine:3, soragen:3 },
   // Section 3: 免疫/抗氧化/慢性病
@@ -904,12 +911,12 @@ const Q = {
   q22: { glutathione:5, omegaven:4, vitc:4, ala:3, selenium:2 },
   q23: { magnesium:5, b6:3, b1:3, zinc:3 },
   q24: { vitc:5, selenium:5, zinc:3, ala:3 },
-  q25: { vitc:5, glutathione:4, omegaven:4, ala:3, carnitine:2 },
+  q25: { vitc:5, glutathione:4, omegaven:4, ala:3, carnitine:2, soragen:5 },
   q26: { vitc:5, glutathione:4, magnesium:4, selenium:3, omegaven:3 },
   q27: { calcium:6, magnesium:5, b12:3, vitc:2 },
   q28: { omegaven:5, vitc:4, cerebrolysin:3, ginkgo:3, glutathione:3 },
   q29: { magnesium:5, ginkgo:4, vitc:3, b12:3 },
-  q30: { magnesium:4, carnitine:4, glutathione:3, b12:3 },
+  q30: { magnesium:4, carnitine:4, glutathione:3, b12:3, taurine:4 },
   // Section 4: 骨骼/肌肉/疼痛
   q31: { magnesium:6, b12:5, b6:3, carnitine:3 },
   q32: { cerebrolysin:5, magnesium:5, b12:4, calcium:3, ala:3 },
@@ -918,19 +925,19 @@ const Q = {
   q34: { ala:6, glutathione:4, b6:4, magnesium:4, vitc:3 },
   q35: { omegaven:6, lipodissolve:5, carnitine:4, glutathione:2, vitc:2 },
   q36: { carnitine:7, lipodissolve:6, ala:3, glutathione:3, aminocomp:2 },
-  q37: { lipodissolve:7, soragen:6, glutathione:5, ala:4, carnitine:4 },
+  q37: { lipodissolve:7, soragen:8, glutathione:5, ala:4, carnitine:4, taurine:7 },
   q38: { magnesium:4, b6:4, b1:3, zinc:3, soragen:3 },
   q39: { b12:4, magnesium:4, b6:3, zinc:3, soragen:3 },
   q40: { glutathione:6, nac:5, ala:5, vitc:4, selenium:3 },
   // Section 6: 心血管
-  q41: { magnesium:6, omegaven:4, carnitine:3, soragen:3 },
-  q42: { magnesium:6, carnitine:5, b12:4, b6:3 },
+  q41: { magnesium:6, omegaven:4, carnitine:3, taurine:4 },
+  q42: { magnesium:6, carnitine:5, b12:4, b6:3, taurine:6 },
   q43: { ginkgo:5, carnitine:4, omegaven:3, b12:3, magnesium:3 },
-  q44: { omegaven:5, carnitine:5, magnesium:4, glutathione:3, vitc:3 },
-  q45: { carnitine:5, magnesium:4, omegaven:4, b12:3 },
+  q44: { omegaven:5, carnitine:5, magnesium:4, glutathione:3, vitc:3, taurine:7 },
+  q45: { carnitine:5, magnesium:4, omegaven:4, b12:3, taurine:5 },
   q46: { omegaven:6, lipodissolve:5, glutathione:4, vitc:3, carnitine:3 },
   // Section 7: 皮膚/外觀/老化
-  q47: { zinc:5, vitc:4, glutathione:4, omegaven:3 },
+  q47: { zinc:5, vitc:4, glutathione:4, omegaven:3, soragen:4 },
   q48: { vitc:6, glutathione:6, ilib:5, b12:3 },
   q49: { b12:5, zinc:5, b6:4, selenium:3, aminocomp:3 },
   q50: { zinc:4, b12:4, b6:3, selenium:3, calcium:3 },
@@ -961,13 +968,14 @@ const Q = {
   q72: { zinc:6, selenium:4, omegaven:4, soragen:3 },
   q73: { soragen:5, zinc:5, cortisol:4, mejuoline:3, b12:4, carnitine:3 },
   // Section 11: 運動表現
-  q74: { bcaa:6, carnitine:5, aminocomp:5, magnesium:4, glutathione:3 },
-  q75: { bcaa:6, magnesium:5, carnitine:5, aminocomp:3, b12:3 },
+  q74: { bcaa:6, carnitine:5, aminocomp:5, magnesium:4, glutathione:3, taurine:4 },
+  q75: { bcaa:6, magnesium:5, carnitine:5, aminocomp:3, b12:3, taurine:4 },
   q76: { carnitine:6, bcaa:5, aminocomp:4, magnesium:3, b12:3 },
   q77: { bcaa:5, aminocomp:5, carnitine:5, magnesium:4, b12:3 },
   q78: { aminocomp:6, bcaa:6, carnitine:4, magnesium:3, b12:3 },
   q79: { magnesium:7, calcium:5, b6:3, carnitine:3, b12:3 },
   q80: { vitc:5, glutathione:5, zinc:4, selenium:3, bcaa:3 },
+  q81: { b1:8, ala:6, bcomplex:3 },
 };
 
 
@@ -996,6 +1004,7 @@ const CATS = [
   { id:'lipodissolve', zh:'磷脂醯膽鹼',         en:'Lipodissolve PC',    color:'#319795', icon:'⚙️' },
   { id:'soragen',      zh:'Soragen-S',         en:'Soragen-S',          color:'#fc8181', icon:'🌸' },
   { id:'cortisol',     zh:'腎上腺皮質素',        en:'Solu-cortef',        color:'#f56565', icon:'💪' },
+  { id:'taurine', zh:'牛磺酸點滴', en:'Taurine IV', color:'#00897b', icon:'🫀' },
 ]
 
 const RECS = {
@@ -1023,6 +1032,7 @@ const RECS = {
   lipodissolve: { zh: '磷脂醯膽鹼 Lipodissolve', en: 'Lipodissolve PC IV',                 color: '#319795', icon: '⚙️' },
   soragen:      { zh: 'Soragen-S 肝臟/荷爾蒙點滴', en: 'Soragen-S IV (Glycyrrhizin)',      color: '#fc8181', icon: '🌸' },
   cortisol:     { zh: '腎上腺皮質素 Solu-cortef', en: 'Solu-cortef IV (Hydrocortisone)',   color: '#f56565', icon: '💪' },
+  taurine:     { zh: '牛磺酸點滴', en: 'Taurine IV', color: '#00897b', icon: '🫀' },
 };
 
 
